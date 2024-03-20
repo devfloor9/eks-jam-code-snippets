@@ -6,3 +6,11 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# General Os generate files
+.DS_Store
+Thumbs.db
+*.log
+logs/
+tmp/
+temp/

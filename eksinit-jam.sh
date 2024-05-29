@@ -109,7 +109,7 @@ echo 'export LBC_CHART_VERSION="1.4.1"' >>  ~/.bash_profile
 .  ~/.bashrc
 
 # Code-server install and run
-curl -fsSL https://code-server.dev/install.sh | sh
+curl -fsSL https://code-server.dev/install.sh | sh | sudo systemctl enable --now code-server@ec2-user | code-server --host 0.0.0.0 --auth none
 
 #cleanup
 #rm -vf ${HOME}/.aws/credentials

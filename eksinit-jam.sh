@@ -97,6 +97,12 @@ echo "alias kgp='kubectl get pods'" | tee -a ~/.bashrc
 echo "alias kgsvc='kubectl get svc'" | tee -a ~/.bashrc
 echo "alias kgn='kubectl get nodes -L beta.kubernetes.io/arch -L eks.amazonaws.com/capacityType -L beta.kubernetes.io/instance-type -L eks.amazonaws.com/nodegroup -L topology.kubernetes.io/zone -L karpenter.sh/provisioner-name -L karpenter.sh/capacity-type'" | tee -a ~/.bashrc
 
+# Install code-server and run(background)
+curl -Lo code-server-install.sh https://code-server.dev/install.sh
+chmod +x code-server-install.sh 
+export HOME=/home/ec2-user
+/code-server-install.sh && code-server --host 0.0.0.0 --auth none > /dev/null 2>&1 &
+
 ######################
 ##  Set Variables  ##
 #####################
@@ -107,9 +113,6 @@ echo 'export LBC_CHART_VERSION="1.4.1"' >>  ~/.bash_profile
 
 .  ~/.bash_profile
 .  ~/.bashrc
-
-# Code-server install and run
-curl -fsSL https://code-server.dev/install.sh | sh | sudo systemctl enable --now code-server@ec2-user | code-server --host 0.0.0.0 --auth none
 
 #cleanup
 #rm -vf ${HOME}/.aws/credentials

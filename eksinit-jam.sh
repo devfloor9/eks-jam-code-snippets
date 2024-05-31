@@ -102,9 +102,7 @@ curl -Lo code-server-install.sh https://code-server.dev/install.sh
 chmod +x code-server-install.sh 
 export HOME=/home/ec2-user
 /code-server-install.sh && 
-
-# code-server enable
-sudo systemctl enable --now code-server@ec2-user.service
+sudo systemctl enable --now code-server@ec2-user.service &&
 
 # Replaces "auth: password" with "auth: none" in the code-server config.
 sed -i.bak 's/auth: password/auth: none/' $HOME/.config/code-server/config.yaml

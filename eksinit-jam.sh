@@ -101,7 +101,25 @@ echo "alias kgn='kubectl get nodes -L beta.kubernetes.io/arch -L eks.amazonaws.c
 curl -Lo code-server-install.sh https://code-server.dev/install.sh
 chmod +x code-server-install.sh 
 export HOME=/home/ec2-user
-/code-server-install.sh && code-server --host 0.0.0.0 --auth none > /dev/null 2>&1 &
+/code-server-install.sh && 
+
+# code-server enable
+sudo systemctl enable --now code-server@ec2-user.service
+
+# Replaces "auth: password" with "auth: none" in the code-server config.
+sed -i.bak 's/auth: password/auth: none/' $HOME/.config/code-server/config.yaml
+
+# Restart code-server
+sudo systemctl restart code-server@ec2-user.service
+
+# -N disables executing a remote shell
+#TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+#INSTANCE_IP=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4)
+#ssh -N -L 8080:127.0.0.1:8080 ec2-user@$INSTANCE_IP
+# -N : ssh 연결은 원하지만 원격으로 명령을 실행하고 싶지 않을 때 사용. 리소스 절약 가능.
+# -L : 호스트 포트에서 서버 포트로 연결.
+
+#code-server --host 0.0.0.0 --auth none > /dev/null 2>&1 &
 
 ######################
 ##  Set Variables  ##
